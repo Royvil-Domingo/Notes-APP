@@ -11,18 +11,19 @@ views = Blueprint('views', __name__)
 @views.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    note = request.form.get('note')
+    if request.method == 'POST':
+        note = request.form.get('note')
 
-    if not note:
-        flash('Note cannot be empty!', category='error')
-    elif len(note) < 1:
-        flash('Note is too short!', category='error')
-    else:
-        # Here you would typically save the note to the database
-        new_note = Note(data=note, user_id=current_user.id)
-        db.session.add(new_note)
-        db.session.commit()
-        flash('Note added!', category='success')
+        if not note:
+            flash('Note cannot be empty!', category='error')
+        elif len(note) < 1:
+            flash('Note is too short!', category='error')
+        else:
+            # Here you would typically save the note to the database
+            new_note = Note(data=note, user_id=current_user.id)
+            db.session.add(new_note)
+            db.session.commit()
+            flash('Note added!', category='success')
     return render_template("home.html", user=current_user)
 
 # DELETE N/OTE
