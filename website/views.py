@@ -13,7 +13,7 @@ views = Blueprint('views', __name__)
 def home():
     note = request.form.get('note')
 
-    if not note.strip():
+    if not note:
         flash('Note cannot be empty!', category='error')
     elif len(note) < 1:
         flash('Note is too short!', category='error')
